@@ -1,21 +1,14 @@
-import cv2
+import av
 import streamlit as st
+from streamlit_webrtc import webrtc_streamer, VideoTransformerBase
 
-st.title("Webcam Live Feed")
-run = st.checkbox('Run')
-FRAME_WINDOW = st.image([])
-camera = cv2.VideoCapture(0)
+class VideoTransformer(VideoTransformerBase):
+    def transform(self, frame):
+        img = frame.to_ndarray(format="bgr24")  # Get the frame as a numpy array
+        return av.VideoFrame.from_ndarray(img, format="bgr24")  # Return the same frame
 
-if not camera.isOpened():
-    st.error("Unable to access the webcam. Please check your camera settings.")
+st.title("Webcam Stream with Streamlit")
+st.write("This app uses `streamlit-webrtc` to access your webcam and display the feed.")
 
-while run:
-    ret, frame = camera.read()
-    if ret:
-        frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-        FRAME_WINDOW.image(frame)
-    else:
-        st.error("Failed to capture frame from webcam. Please try again.")
-else:
-    st.write("Stopped")
-    camera.release()  # Release the camera when stopping
+# Stream webcam feed
+webrtc_streamer(key="webcam", video_transformer_factory=VideoTransformer)
