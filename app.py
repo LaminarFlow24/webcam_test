@@ -4,7 +4,7 @@ import streamlit as st
 BACKEND_URL = "https://floating-crag-45056-9ea530251d89.herokuapp.com"
 
 # Streamlit app
-st.title("Webcam Stream Viewer")
+st.title("Webcam Stream Viewer2")
 st.text("The webcam feed is streamed from the Flask backend.")
 
 # Display video feed
