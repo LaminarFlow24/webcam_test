@@ -1,7 +1,7 @@
 import streamlit as st
 
 # Backend URL (Update this if you deploy the Flask app on Heroku)
-BACKEND_URL = "https://floating-crag-45056-9ea530251d89.herokuapp.com/"
+BACKEND_URL = "https://floating-crag-45056-9ea530251d89.herokuapp.com"
 
 # Streamlit app
 st.title("Webcam Stream Viewer")
