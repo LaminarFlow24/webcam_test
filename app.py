@@ -1,6 +1,7 @@
-import cv2
+
 import streamlit as st
 import numpy as np
+import cv2
 
 st.title("Webcam Stream with OpenCV")
 st.write("This app uses OpenCV to access your webcam and display the feed in Streamlit.")
