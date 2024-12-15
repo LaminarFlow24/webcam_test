@@ -1,42 +1,29 @@
-import cv2
 import streamlit as st
+from streamlit_webrtc import webrtc_streamer
 
-# Title and instructions
-st.title("Webcam Stream - Simple Alternative")
-st.write("This app uses OpenCV to access the webcam and display the feed in Streamlit.")
+st.title("OpenCV Filters on Video Stream")
 
-# Start/Stop toggle
-start_stream = st.checkbox("Start Webcam")
+filter = "none"
 
-# Placeholder for the video feed
-frame_placeholder = st.empty()
+col1, col2, col3, col4, col5, col6 = st.columns([1, 1, 1, 1, 1, 1])
 
-if start_stream:
-    # Open the webcam
-    cap = cv2.VideoCapture(0)
+with col1:
+    if st.button("None"):
+        filter = "none"
+with col2:
+    if st.button("Blur"):
+        filter = "blur"
+with col3:
+    if st.button("Grayscale"):
+        filter = "grayscale"
+with col4:
+    if st.button("Sepia"):
+        filter = "sepia"
+with col5:
+    if st.button("Canny"):
+        filter = "canny"
+with col6:
+    if st.button("Invert"):
+        filter = "invert"
 
-    # Check if webcam is accessible
-    if not cap.isOpened():
-        st.error("Unable to access the webcam. Please check permissions and retry.")
-    else:
-        st.info("Streaming webcam feed. Uncheck the box to stop.")
-        while start_stream:
-            ret, frame = cap.read()
-            if not ret:
-                st.error("Failed to read from webcam.")
-                break
-
-            # Convert BGR (OpenCV format) to RGB (Streamlit compatible)
-            frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-
-            # Display the frame in Streamlit
-            frame_placeholder.image(frame, channels="RGB")
-
-            # Check if the checkbox is unchecked
-            start_stream = st.session_state.get("start_webcam", False)
-
-    # Release resources when the loop ends
-    cap.release()
-else:
-    st.info("Check the 'Start Webcam' box to stream the video.")
-
+webrtc_streamer(key="streamer", sendback_audio=False)
